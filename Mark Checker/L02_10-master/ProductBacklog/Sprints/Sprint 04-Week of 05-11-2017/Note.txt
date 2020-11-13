@@ -1,0 +1,2 @@
+Due to issues, this sprint documentation layout is different.
+Future sprints will return to the same layout as previous sprints.
