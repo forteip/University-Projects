@@ -1,0 +1,12 @@
+CREATE DATABASE IF NOT EXISTS youngry2 ;
+USE youngry2;
+SELECT countrylanguage.Language, country.Name FROM countrylanguage CROSS JOIN country;
+SELECT Name, Code, Language FROM countrylanguage, country WHERE (countrylanguage.language LIKE 'French' or countrylanguage.Language like 'English') AND country.Code = countrylanguage.CountryCode;
+SELECT Name, Code, Language FROM country INNER JOIN countrylanguage ON country.Code = countrylanguage.CountryCode WHERE countrylanguage.Language LIKE 'English';
+SELECT Language FROM countrylanguage WHERE CountryCode like 'USA';
+SELECT Language FROM countrylanguage WHERE countrylanguage.CountryCode like 'USA';
+SELECT Name, Population, (SELECT AVG(Population) FROM country)as AveragePopulation, CASE WHEN Population > (SELECT AVG(Population) FROM country) THEN 'Greater' ELSE 'Less' END AS ComparedToAverage FROM country;
+SELECT CountryCode, total FROM (SELECT CountryCode, COUNT(CountryCode) as total from city group by CountryCode) as sum WHERE total > 50;
+SELECT c1.Name, c1.GovernmentForm, c2.Name, c2.GovernmentForm FROM (SELECT country.Name, country.GovernmentForm FROM country WHERE country.Continent LIKE 'South America') as c1 LEFT OUTER JOIN (SELECT country.Name, country.GovernmentForm FROM country WHERE country.GovernmentForm LIKE 'Federal Republic') as c2 ON c1.GovernmentForm = c2.GovernmentForm;
+SELECT c1.Name, c1.GovernmentForm, c2.Name, c2.GovernmentForm FROM (SELECT country.Name, country.GovernmentForm FROM country WHERE country.Continent LIKE 'South America') as c1 LEFT OUTER JOIN (SELECT country.Name, country.GovernmentForm FROM country WHERE country.GovernmentForm LIKE 'Federal Republic') as c2 ON c1.Name = c2.Name;
+Select * FROM (Select countrylanguage.language, count(countrylanguage.Language) as count from countrylanguage group by language) as t1 ORDER BY t1.count DESC LIMIT 1;
