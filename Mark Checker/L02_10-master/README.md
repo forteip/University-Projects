@@ -2,11 +2,9 @@
 
 This is group repostitory for CSCC01 Lecture 02 - Group 10  
 
-For features and instructions on how to run the project, see [Project]
-(https://github.com/forteip/University-Projects/tree/main/Mark%20Checker/L02_10-master/Project)
+For features and instructions on how to run the project, see [Project](https://github.com/forteip/University-Projects/tree/main/Mark%20Checker/L02_10-master/Project)
 
-For original project repo, see [Original repo]
-(https://github.com/UTSCMatt/ZodiacApp/tree/master/Project)
+For original project repo, see [Original repo](https://github.com/UTSCMatt/ZodiacApp/tree/master/Project)
 
 Directory structure:
 ```
