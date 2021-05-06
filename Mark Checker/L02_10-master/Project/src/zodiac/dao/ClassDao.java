@@ -7,6 +7,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import zodiac.definition.Class;
+import zodiac.util.ActiveUser;
 import zodiac.util.PostgreSqlJdbc;
 
 /**
@@ -68,13 +69,14 @@ public class ClassDao {
     Connection c;
     PreparedStatement stmt;
 
-    String sql = "SELECT Add_Class(?, ?)";
+    String sql = "SELECT Add_Class(?, ?, ?)";
     try {
       c = new PostgreSqlJdbc().getConnection();
       stmt = c.prepareStatement(sql);
 
       stmt.setString(1, courseCode);
       stmt.setString(2, className);
+      stmt.setString(3, ActiveUser.INSTANCE.getUser().getUtorId());
 
       ResultSet rs = stmt.executeQuery();
 

@@ -1,4 +1,4 @@
-# Personas:
+# Sprints:
 
 This directories is for all the Sprints.
 

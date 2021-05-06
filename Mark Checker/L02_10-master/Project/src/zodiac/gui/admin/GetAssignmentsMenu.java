@@ -22,7 +22,7 @@ import zodiac.definition.Student;
 import zodiac.definition.coursework.Assignment;
 import zodiac.definition.security.SecurityConstants;
 import zodiac.definition.security.User;
-import zodiac.gui.user.AssignmentUI;
+import zodiac.gui.user.AssignmentUi;
 import zodiac.util.ActiveUser;
 
 //import com.intellij.ui.components.JBScrollPane;
@@ -80,7 +80,7 @@ public class GetAssignmentsMenu {
           assignment.setQuestionList(new QuestionAction().getQuestionsWithAnswer(assignment.getId()));
           User user = ActiveUser.INSTANCE.getUser();
           if(user.getRole() == SecurityConstants.STUDENT_ROLE){
-            new AssignmentUI(assignment,new Student(user.getUtorId(),user.getLastName(),user.getFirstName())).setVisible(true);
+            new AssignmentUi(assignment,new Student(user.getUtorId(),user.getLastName(),user.getFirstName())).setVisible(true);
           }else{
             new EditAssignmentMenu(assignment).setVisible(true);
           }

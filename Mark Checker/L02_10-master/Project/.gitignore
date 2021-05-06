@@ -1,5 +1,5 @@
 
-# Created by https://www.gitignore.io/api/eclipse,intellij
+# Created by https://www.gitignore.io/api/gradle,eclipse,intellij
 
 ### Eclipse ###
 
@@ -78,6 +78,10 @@ local.properties
 .idea/**/dynamic.xml
 .idea/**/uiDesigner.xml
 
+# Gradle:
+.idea/**/gradle.xml
+.idea/**/libraries
+
 # CMake
 cmake-build-debug/
 
@@ -113,15 +117,34 @@ fabric.properties
 ### Intellij Patch ###
 # Comment Reason: https://github.com/joeblau/gitignore.io/issues/186#issuecomment-215987721
 
-# *.iml
-# modules.xml
-# .idea/misc.xml
-# *.ipr
+*.iml
+modules.xml
+.idea/misc.xml
+*.ipr
 
 # Sonarlint plugin
 .idea/sonarlint
 
-# End of https://www.gitignore.io/api/eclipse,intellij
+### Gradle ###
+.gradle
+**/build/
 
+# Ignore Gradle GUI config
+gradle-app.setting
+
+# Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
+!gradle-wrapper.jar
+
+# Cache of project
+.gradletasknamecache
+
+# # Work around https://youtrack.jetbrains.com/issue/IDEA-116898
+# gradle/wrapper/gradle-wrapper.properties
+
+# End of https://www.gitignore.io/api/gradle,eclipse,intellij
+
+.idea/*
+=======
 .idea/artifacts
 .idea/dbnavigator.xml
+src/META-INF

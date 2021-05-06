@@ -7,5 +7,7 @@ Create Table Assignments(
 	Visibility boolean NOT NULL DEFAULT True,
 	Max_Attempt int,
 	Open_Time timestamp,
-	Close_Time timestamp
+	Close_Time timestamp,
+	Deadline timestamp,
+	Extra_Points int
 )

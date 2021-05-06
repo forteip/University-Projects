@@ -55,6 +55,9 @@ public class UserAction {
       return "Error: Already logged in";
     } else {
       String hash = new UserDao().getHash(utorId);
+      if (hash == null) {
+        return "Failed to login";
+      }
       if (BCrypt.checkpw(password, hash)) {
         // If password is correct
         User user = new UserDao().getUser(utorId);

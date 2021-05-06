@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import zodiac.definition.Student;
-import zodiac.definition.coursework.Assignment;
+import zodiac.definition.security.SecurityConstants;
 import zodiac.util.PostgreSqlJdbc;
 
 public class StudentDao {
@@ -20,14 +20,15 @@ public class StudentDao {
    * @param questionId the question id this answer belong
    * @return succefully string or null
    */
-  public static String fetchTempAnswerFromQuestion(Student student, int assignmentId, int questionId) {
+  public static String fetchTempAnswerFromQuestion(Student student, int assignmentId,
+      int questionId) {
     String message = "";
 
     Connection c;
     PreparedStatement stmt;
 
     String sql = "SELECT temp_answer From userassignquesansmap"
-            + " WHERE utor_id  = ? AND assignment_id = ? AND question_id = ?";
+        + " WHERE utor_id  = ? AND assignment_id = ? AND question_id = ?";
     try {
       c = new PostgreSqlJdbc().getConnection();
       stmt = c.prepareStatement(sql);
@@ -36,12 +37,13 @@ public class StudentDao {
       stmt.setInt(3, questionId);
 
       ResultSet rs = stmt.executeQuery();
-      if(rs.next()){
+      if (rs.next()) {
         message = rs.getString(1);
 
-      }else{
+      } else {
         message = null;
-      };
+      }
+      ;
 
       rs.close();
       stmt.close();
@@ -66,7 +68,7 @@ public class StudentDao {
    * @return succefully string or fail
    */
   public static String addTempAnswerToQuestion(Student student, int assignmentId, int questionId,
-                                               String temp_answer) {
+      String temp_answer) {
     String message = "";
 
     Connection c;
@@ -182,7 +184,7 @@ public class StudentDao {
   /**
    * Save mark of particular assignment for student into database, also increase an attempt.
    */
-  public static void saveMark(Student student, Assignment ass, Integer mark) {
+  public static void saveMark(Integer aId, String utorId, Integer mark) {
     String message = "";
 
     Connection c;
@@ -193,8 +195,8 @@ public class StudentDao {
     try {
       c = new PostgreSqlJdbc().getConnection();
       stmt = c.prepareStatement(sql);
-      stmt.setString(1, student.getUtorId());
-      stmt.setInt(2, ass.getId());
+      stmt.setString(1, utorId);
+      stmt.setInt(2, aId);
       stmt.setInt(3, mark);
 
       ResultSet rs = stmt.executeQuery();
@@ -229,12 +231,14 @@ public class StudentDao {
         + " INNER JOIN UserClassMap m"
         + " ON u.UTOR_Id=m.UTOR_Id"
         + " WHERE m.Course_Code = ?"
+        + " AND u.Role = ?"
         + " ORDER BY UTOR_Id desc";
 
     try {
       c = new PostgreSqlJdbc().getConnection();
       stmt = c.prepareStatement(sql);
       stmt.setString(1, courseCode);
+      stmt.setString(2, SecurityConstants.STUDENT_ROLE);
       ResultSet rs = stmt.executeQuery();
 
       while (rs.next()) {

@@ -30,14 +30,9 @@ import zodiac.definition.Mark;
 
 import zodiac.definition.Student;
 import zodiac.definition.coursework.Assignment;
-import zodiac.definition.security.SecurityConstants;
-import zodiac.definition.security.User;
-import zodiac.util.ActiveUser;
+import static zodiac.util.AdminMainMenuConstants.*;
 
-import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.table.DefaultTableModel;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -50,16 +45,6 @@ import java.util.List;
  * Mainmenu for the app. This main menu is for admins.
  */
 public class AdminMainMenu implements ItemListener {
-    //Constants
-    public static String WELCOME_MESSAGE = "Welcome to the STAT_TRAKER admin app!";
-    public static String CREATE_CLASS = "Create a class";
-    public static String GET_CLASSES = "Get a list of classes";
-    public static String ADD_STUDENT = "Add a student";
-    public static String GET_STUDENT = "Get a list of students";
-    public static String ASS_MANAGER = "Open Assignment Manager";
-    public static String ADD_ASSIGNMENT_MARK = "Add assignment mark";
-    public static String GET_CLASS_MARK = "Get course mark";
-
     private JPanel cbPanel;
     private JComboBox cbOptions;
     private JPanel panelAddClass;
@@ -73,6 +58,7 @@ public class AdminMainMenu implements ItemListener {
     private DefaultTableModel studentsTableModel;
     private DefaultTableModel markTableModel;
     private JPanel cards;
+    private String choice = CREATE_CLASS;
 
     /**
      * Sets up the main menu GUI as a CardLayout and adds each
@@ -85,7 +71,7 @@ public class AdminMainMenu implements ItemListener {
         // Create the combo box JPanel and add all the options into it
         JPanel cbPanel = new JPanel(new FlowLayout());
 
-        String cbOptionList[] = {CREATE_CLASS, GET_CLASSES, ADD_STUDENT, GET_STUDENT,ADD_ASSIGNMENT_MARK,GET_CLASS_MARK, ASS_MANAGER};
+        String cbOptionList[] = {CREATE_CLASS, GET_CLASSES, ADD_STUDENT, GET_STUDENT,ADD_ASSIGNMENT_MARK,GET_CLASS_MARK, ASS_MANAGER, GET_CLASS_MARK_SUMMARY};
 
         cbOptions = new JComboBox(cbOptionList);
         cbOptions.setEditable(false);
@@ -116,6 +102,7 @@ public class AdminMainMenu implements ItemListener {
         cards.add(panelGetStudents, GET_STUDENT);
         cards.add(createAddMarkPanel(), ADD_ASSIGNMENT_MARK);
         cards.add(panelGetClassMark, GET_CLASS_MARK);
+        cards.add(new MarkSummaryMenu().setUpMenu(), GET_CLASS_MARK_SUMMARY);
         // Add everything to the pane
         pane.add(topPanel, BorderLayout.PAGE_START);
         pane.add(cards, BorderLayout.CENTER);
@@ -376,21 +363,25 @@ public class AdminMainMenu implements ItemListener {
     public void itemStateChanged(ItemEvent evt)
     {
         CardLayout cl = (CardLayout)(cards.getLayout());
+        String newChoice =  (String)evt.getItem();;
+        if(!choice.equals(newChoice)){
+            choice = newChoice;
+            if (choice.equals(ASS_MANAGER))
+            {
 
-        String choice = (String)evt.getItem();
-        if (choice.equals(GET_CLASSES))
-        {
-            updateClassesTable();
+                JFrame managerWindow = new JFrame("Assignment Manager");
+                new AssignmentManagerMenu().generateContents(managerWindow);
+
+                managerWindow.pack();
+                managerWindow.setVisible(true);
+            }
+            else if (choice.equals(GET_CLASSES))
+            {
+                updateClassesTable();
+
+            }
         }
-        else if (choice.equals(ASS_MANAGER))
-        {
-            JFrame managerWindow = new JFrame("Assignment Manager");
-            new AssignmentManagerMenu().generateContents(managerWindow);
 
-            managerWindow.pack();
-            managerWindow.setVisible(true);
-
-        }
         cl.show(cards, (String)evt.getItem());
     }
 

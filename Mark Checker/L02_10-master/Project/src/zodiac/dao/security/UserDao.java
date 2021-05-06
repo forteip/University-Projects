@@ -95,6 +95,8 @@ public class UserDao {
     Connection c;
     PreparedStatement stmt;
 
+    boolean registered = false;
+
     String sql = "SELECT registered FROM Users WHERE utor_id = ?";
 
     c = new PostgreSqlJdbc().getConnection();
@@ -102,11 +104,13 @@ public class UserDao {
     stmt.setString(1, utorId);
 
     ResultSet rs = stmt.executeQuery();
-    rs.next();
+    if (rs.next()) {
+      registered = rs.getBoolean("registered");
+    }
     rs.close();
     stmt.close();
     c.close();
-    return rs.getBoolean("registered");
+    return registered;
   }
 
   /**

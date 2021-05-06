@@ -19,9 +19,10 @@ public class Assignment {
   private String name;
   private Date openDate;
   private Date closeDate;
+  private Date earlySubmissionDeadline;
+  private Integer extraPoints;
 
-
-  //field added
+  // field added
   private Boolean visibility;
 
   /**
@@ -34,7 +35,7 @@ public class Assignment {
     this.currScore = 0;
     this.highScore = 0;
     this.name = name;
-    this.visibility=true;
+    this.visibility = true;
     this.maxAttempt = 0;
   }
 
@@ -62,20 +63,20 @@ public class Assignment {
     return questionList;
   }
 
-  public int getCurrScore() {
-    return currScore;
-  }
-
-  public int getHighScore() {
-    return highScore;
-  }
-
   public void setQuestionList(List<Question> questionList) {
     this.questionList = questionList;
   }
 
+  public int getCurrScore() {
+    return currScore;
+  }
+
   public void setCurrScore(int currScore) {
     this.currScore = currScore;
+  }
+
+  public int getHighScore() {
+    return highScore;
   }
 
   public void setHighScore(int highScore) {
@@ -108,8 +109,8 @@ public class Assignment {
   }
 
   /**
-   * Return the number of maximum attempts allowed for an assignment.
-   * Returns 0 if infinite attempts are allowed.
+   * Return the number of maximum attempts allowed for an assignment. Returns 0 if infinite attempts
+   * are allowed.
    *
    * @return maximum number of attempts allowed. 0 if infinite attempts
    */
@@ -137,8 +138,24 @@ public class Assignment {
     this.closeDate = closeDate;
   }
 
+  public Integer getExtraPoints() {
+    return extraPoints;
+  }
+
+  public void setExtraPoints(int extraPoints) {
+    this.extraPoints = extraPoints;
+  }
+
+  public Date getEarlySubmissionDeadline() {
+    return earlySubmissionDeadline;
+  }
+
+  public void setEarlySubmissionDeadline(Date earlySubmissionDeadline) {
+    this.earlySubmissionDeadline = earlySubmissionDeadline;
+  }
+
   public String toString() {
     Integer myInt = new Integer(this.id);
-    return StringUtils.join(myInt, " " ,this.name);
+    return StringUtils.join(myInt, " ", this.name);
   }
 }

@@ -2,8 +2,8 @@
 
 This is group repostitory for CSCC01 Lecture 02 - Group 10  
 
-For instructions on how to run the project, see [Project](https://github.com/CSCC01F17/L02_10/tree/master/Project)
-
+For features and instructions on how to run the project, see [Project]
+(https://github.com/forteip/University-Projects/tree/main/Mark%20Checker/L02_10-master/Project)
 Directory structure:
 ```
     root

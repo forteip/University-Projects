@@ -2,6 +2,7 @@ package zodiac.gui.admin;
 
 //import com.intellij.ui.components.JBList;
 //import com.intellij.ui.components.JBScrollPane;
+import zodiac.action.QuestionAction;
 import zodiac.dao.coursework.AssignmentDao;
 import zodiac.dao.coursework.QuestionDao;
 import zodiac.definition.coursework.Assignment;
@@ -74,7 +75,7 @@ public class AddQuestionToAssignmentMenu {
         public void actionPerformed(ActionEvent actionEvent) {
             for (Integer i : selectedQuestions)
             {
-                new QuestionDao().addQuestionToAssignment(model.get(i).getQid(), currAssign.getId());
+                new QuestionAction().addQuestionToAssignment(model.get(i).getQid(), currAssign.getId());
             }
 
         }
@@ -88,7 +89,7 @@ public class AddQuestionToAssignmentMenu {
         @Override
         public void itemStateChanged(ItemEvent itemEvent) {
             model.clear();
-            List<Question> questions = new QuestionDao().getAllQuestions();
+            List<Question> questions = new QuestionAction().getAllQuestions();
             Assignment a = (Assignment)itemEvent.getItem();
             currAssign = a;
             List<Question> omitted = a.getQuestionList();

@@ -35,13 +35,6 @@ public class Class {
   }
 
   /**
-   * set the name of class.
-   */
-  public void setClassName(String className) {
-    this.className = className;
-  }
-
-  /**
    * get the name of class.
    *
    * @return the name of class
@@ -51,10 +44,10 @@ public class Class {
   }
 
   /**
-   * set a list of Students.
+   * set the name of class.
    */
-  public void setStudents(List<Student> students) {
-    this.students = students;
+  public void setClassName(String className) {
+    this.className = className;
   }
 
   /**
@@ -64,5 +57,12 @@ public class Class {
    */
   public List<Student> getStudents() {
     return this.students;
+  }
+
+  /**
+   * set a list of Students.
+   */
+  public void setStudents(List<Student> students) {
+    this.students = students;
   }
 }

@@ -1,7 +1,7 @@
-package zodiac.gui.user;
+package zodiac.gui;
 
 import javax.swing.*;
 
-public abstract class UserSubMenu {
+public abstract class GuiSubMenu {
     public abstract JPanel setUpMenu();
 }

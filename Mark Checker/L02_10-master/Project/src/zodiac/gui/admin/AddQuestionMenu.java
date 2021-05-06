@@ -1,7 +1,7 @@
 package zodiac.gui.admin;
 
 
-import zodiac.dao.coursework.QuestionDao;
+import zodiac.action.QuestionAction;
 import zodiac.definition.coursework.Question;
 
 import javax.swing.*;
@@ -10,8 +10,13 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import zodiac.definition.coursework.QuestionTypeConstants;
 
 public class AddQuestionMenu {
+
+    JComboBox typeList;
+    JCheckBox checkAutoMark;
+
     JTextField ansField;
     JTextField textQuestion;
     JButton ansButton;
@@ -27,6 +32,19 @@ public class AddQuestionMenu {
         panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setPreferredSize(new Dimension(600,400));
+
+        JLabel questionTypeLabel = new JLabel("Question Type");
+        questionTypeLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        questionTypeLabel.setBorder(new EmptyBorder(0,0,10,0));
+
+        typeList = new JComboBox(Question.getTypes().toArray());
+        typeList.setSelectedIndex(0);
+        typeList.setEditable(false);
+
+        checkAutoMark = new JCheckBox("Auto mark question");
+        checkAutoMark.setAlignmentX(JCheckBox.CENTER_ALIGNMENT);
+        checkAutoMark.setSelected(true);
+
         // Generate JLabels for each text field
         JLabel label1 = new JLabel("Enter your Question: ");
         label1.setAlignmentX(JLabel.CENTER_ALIGNMENT);
@@ -68,6 +86,9 @@ public class AddQuestionMenu {
         button.addActionListener(new AddQuestionListener(textQuestion));
 
         // Add contents to the panel
+        panel.add(questionTypeLabel);
+        panel.add(typeList);
+        panel.add(checkAutoMark);
         panel.add(label1);
         panel.add(textQuestion);
         panel.add(label2);
@@ -95,12 +116,12 @@ public class AddQuestionMenu {
 
             if(actionEvent.getActionCommand() == button.getActionCommand()){
                 // add question
-                Question q =  new QuestionDao().addQuestion(question.getText());
+                Question q =  new QuestionAction().createQuestion(question.getText(), typeList.getSelectedItem().toString(), checkAutoMark.isSelected());
                 if(q!=null){
                     // add answer to that question
                     panel.remove(6);
                     for(int i=0;i<answers.size();i++){
-                        new QuestionDao().addAnswerToQuestion(q.getQid(),answers.get(i),answersValidity.get(i));
+                        new QuestionAction().addAnswer(q.getQid(),answers.get(i),answersValidity.get(i));
                         // remove component from panel
                         panel.remove(6);
                     }
@@ -110,6 +131,8 @@ public class AddQuestionMenu {
                     ansField.setText("");
                     textQuestion.setText("");
                 }
+                panel.updateUI();
+                panel.revalidate();
 
 
 

@@ -1,21 +1,16 @@
 package zodiac;
 
-import java.awt.*;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Scanner;
 import org.apache.commons.lang3.StringUtils;
-
+import zodiac.action.AssignmentAction;
 import zodiac.action.ClassAction;
+import zodiac.action.QuestionAction;
 import zodiac.action.StudentAction;
 import zodiac.dao.ClassDao;
 import zodiac.dao.StudentDao;
 import zodiac.definition.Class;
-import zodiac.definition.MessageConstants;
 import zodiac.definition.Student;
-import zodiac.action.AssignmentAction;
-import zodiac.action.QuestionAction;
-import zodiac.definition.coursework.Assignment;
 import zodiac.definition.coursework.Question;
 
 public class Main {
@@ -29,8 +24,6 @@ public class Main {
      * GUI
      */
 //    AssignmentGUI gui = new AssignmentGUI();
-
-
 
     Scanner scanner = new Scanner(System.in);
     boolean exit = false;
@@ -50,7 +43,7 @@ public class Main {
           System.out.println("Add a question to assignment by Assignment ID: addQuestion");
           System.out.println("Add an answer to a question by QID: addAnswer");
           System.out.println("Start answer on an assignment: answerAssignment");
-          
+
           System.out.println("Exit: exit");
           break;
         }
@@ -82,7 +75,7 @@ public class Main {
             System.out.println(course.getCourseCode() + " " + course.getClassName());
           }
           break;
-      }
+        }
         case "getStudents": {
           System.out.print("Enter course code: ");
           String courseCode = StringUtils.trimToEmpty(scanner.nextLine());
@@ -100,21 +93,22 @@ public class Main {
           System.out.print("Enter Course ID: ");
           String courseId = StringUtils.trimToEmpty(scanner.nextLine());
           System.out.println("Assignment Id Is: " +
-                  new AssignmentAction().addAssignment(AssignmentName, courseId) + "\n");
+              new AssignmentAction().addAssignment(AssignmentName, courseId) + "\n");
           break;
         }
 
-        case "addQuestion" : {
+        case "addQuestion": {
           System.out.print("Enter Assignment ID: ");
           String AssignmentIDstr = StringUtils.trimToEmpty(scanner.nextLine());
           System.out.print("Enter Question: ");
           String AssignmentQuestion = StringUtils.trimToEmpty(scanner.nextLine());
           int AssignmentID = Integer.valueOf(AssignmentIDstr);
-          System.out.println(new QuestionAction().createQuestion(AssignmentID, AssignmentQuestion));
+          System.out.println(
+              new QuestionAction().createMultipleChoiceQuestion(AssignmentID, AssignmentQuestion));
           break;
         }
 
-        case "addAnswer" : {
+        case "addAnswer": {
           System.out.print("Enter Question ID: ");
           String QuestionIDstr = StringUtils.trimToEmpty(scanner.nextLine());
           int QuestionID = Integer.valueOf(QuestionIDstr);
@@ -123,36 +117,35 @@ public class Main {
           System.out.print("Enter Boolean, Is this a correct answer?: ");
           String AnswerCorectness = StringUtils.trimToEmpty(scanner.nextLine());
           Boolean Correctness = Boolean.valueOf(AnswerCorectness);
-          System.out.println(new QuestionAction().addAnswer(QuestionID, AssignmentAnswer, Correctness));
+          System.out
+              .println(new QuestionAction().addAnswer(QuestionID, AssignmentAnswer, Correctness));
           break;
         }
 
-        case "getQuestions" : {
+        case "getQuestions": {
           System.out.print("Enter Assignment ID: ");
           String AssignmentIDstr = StringUtils.trimToEmpty(scanner.nextLine());
           int AssignmentID = Integer.valueOf(AssignmentIDstr);
           List<Question> QuestionList = new QuestionAction().getQid(AssignmentID);
           for (Question question : QuestionList) {
-            System.out.println(question.getQuestion()+ " ID: " + question.getQid() + "\n");
+            System.out.println(question.getQuestion() + " ID: " + question.getQid() + "\n");
           }
           break;
         }
 
-
-
-        case "getAssignments": {
-          System.out.print("Enter Course ID: ");
-          String courseId = StringUtils.trimToEmpty(scanner.nextLine());
-          try {
-            List<Assignment> assignments = new AssignmentAction().checkAssignments(courseId);
-            for (Assignment assignment : assignments) {
-              System.out.println(assignment.getName() + " Id: " + assignment.getId());
-            }
-          } catch (SQLException e) {
-            System.out.println(MessageConstants.ERROR);
-          }
-          break;
-        }
+//        case "getAssignments": {
+//          System.out.print("Enter Course ID: ");
+//          String courseId = StringUtils.trimToEmpty(scanner.nextLine());
+//          try {
+//            List<Assignment> assignments = new AssignmentAction().checkAssignments(courseId);
+//            for (Assignment assignment : assignments) {
+//              System.out.println(assignment.getName() + " Id: " + assignment.getId());
+//            }
+//          } catch (SQLException e) {
+//            System.out.println(MessageConstants.ERROR);
+//          }
+//          break;
+//        }
 //        case "answerAssignment":{
 //        	 System.out.print("Enter User ID: ");
 //       	 String userId = StringUtils.trimToEmpty(scanner.nextLine());
@@ -170,7 +163,7 @@ public class Main {
 //                      EventQueue.invokeLater(new Runnable() {
 //                        public void run() {
 //                          try {
-//                            AssignmentUI frame = new AssignmentUI(a,student);
+//                            AssignmentUi frame = new AssignmentUi(a,student);
 //                            frame.setVisible(true);
 //                          } catch (Exception e) {
 //                            e.printStackTrace();

@@ -42,13 +42,6 @@ public class Student {
   }
 
   /**
-   * set the class code.
-   */
-  public void setClassCode(String classCode) {
-    this.classCode = classCode;
-  }
-
-  /**
    * get the class code.
    *
    * @return the code of class
@@ -58,10 +51,10 @@ public class Student {
   }
 
   /**
-   * set the code of tut.
+   * set the class code.
    */
-  public void setTutCode(String tutCode) {
-    this.tutCode = tutCode;
+  public void setClassCode(String classCode) {
+    this.classCode = classCode;
   }
 
   /**
@@ -74,10 +67,10 @@ public class Student {
   }
 
   /**
-   * set the student UTOR ID.
+   * set the code of tut.
    */
-  public void setUtorId(String utorId) {
-    this.utorId = utorId;
+  public void setTutCode(String tutCode) {
+    this.tutCode = tutCode;
   }
 
   /**
@@ -90,10 +83,10 @@ public class Student {
   }
 
   /**
-   * set the last name.
+   * set the student UTOR ID.
    */
-  public void setLastName(String lastName) {
-    this.lastName = lastName;
+  public void setUtorId(String utorId) {
+    this.utorId = utorId;
   }
 
   /**
@@ -106,10 +99,10 @@ public class Student {
   }
 
   /**
-   * set the first name.
+   * set the last name.
    */
-  public void setFirstName(String firstName) {
-    this.firstName = firstName;
+  public void setLastName(String lastName) {
+    this.lastName = lastName;
   }
 
   /**
@@ -119,6 +112,13 @@ public class Student {
    */
   public String getFirstName() {
     return this.firstName;
+  }
+
+  /**
+   * set the first name.
+   */
+  public void setFirstName(String firstName) {
+    this.firstName = firstName;
   }
 
 }

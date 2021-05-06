@@ -51,19 +51,19 @@ public class Tut {
   }
 
   /**
-   * set a list of Students.
-   */
-  public void setStudents(List<Student> students) {
-    this.students = students;
-  }
-
-  /**
    * get a list of Students of class.
    *
    * @return list of students
    */
   public List<Student> getStudents() {
     return this.students;
+  }
+
+  /**
+   * set a list of Students.
+   */
+  public void setStudents(List<Student> students) {
+    this.students = students;
   }
 }
 

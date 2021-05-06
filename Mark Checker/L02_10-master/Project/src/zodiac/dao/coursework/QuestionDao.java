@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import zodiac.definition.coursework.Question;
+import zodiac.definition.coursework.QuestionTypeConstants;
 import zodiac.util.PostgreSqlJdbc;
 
 public class QuestionDao {
@@ -15,8 +16,7 @@ public class QuestionDao {
   }
 
   /**
-   * Get a list of all questions in the system.
-   * generateAnswers defaults as False.
+   * Get a list of all questions in the system. generateAnswers defaults as False.
    *
    * @param generateAnswers whether to populate the answers list or not
    * @return list of all questions
@@ -27,7 +27,7 @@ public class QuestionDao {
     Connection c;
     PreparedStatement stmt;
 
-    String sql = "SELECT q.Id, q.Question FROM Questions q"
+    String sql = "SELECT q.Id, q.Question, q.Question_Type, q.Automark FROM Questions q"
         + " ORDER BY q.Id DESC";
 
     try {
@@ -40,6 +40,8 @@ public class QuestionDao {
         String question = rs.getString("Question");
         Question questionObject = new Question(id);
         questionObject.setQuestion(question);
+        questionObject.setQuestionType(rs.getString("Question_Type"));
+        questionObject.setAutoMark(rs.getBoolean("Automark"));
         if (generateAnswers) {
           generateAnswers(questionObject);
         }
@@ -62,8 +64,8 @@ public class QuestionDao {
   }
 
   /**
-   * Get a list of questions in the system belonging to the given assignment.
-   * generateAnswers defaults as False.
+   * Get a list of questions in the system belonging to the given assignment. generateAnswers
+   * defaults as False.
    *
    * @param assignmentId id of the assignment
    * @param generateAnswers whether to populate the answers list or not
@@ -75,7 +77,7 @@ public class QuestionDao {
     Connection c;
     PreparedStatement stmt;
 
-    String sql = "SELECT q.Id, q.Question FROM Questions q"
+    String sql = "SELECT q.Id, q.Question, q.Question_Type, q.Automark FROM Questions q"
         + " INNER JOIN AssignmentQuestionMap m"
         + " ON m.Question_Id = q.Id"
         + " WHERE m.Assignment_Id = ?"
@@ -92,6 +94,8 @@ public class QuestionDao {
         String question = rs.getString("Question");
         Question questionObject = new Question(id);
         questionObject.setQuestion(question);
+        questionObject.setQuestionType(rs.getString("Question_Type"));
+        questionObject.setAutoMark(rs.getBoolean("Automark"));
         if (generateAnswers) {
           generateAnswers(questionObject);
         }
@@ -109,24 +113,34 @@ public class QuestionDao {
     return questions;
   }
 
+  public Question addQuestion(String question) {
+    return addQuestion(question, QuestionTypeConstants.MULTIPLE_CHOICE, true);
+  }
+
   /**
-   * Add a question to the database.
+   * Add a question to the database. Question type defaults as multiple choice Auto mark defaults as
+   * true
    *
    * @param question what the question is asking
+   * @param questionType the type of question
+   * @param autoMark if the question is automarked
    * @return created question with the id
    */
-  public Question addQuestion(String question) {
+  public Question addQuestion(String question, String questionType, boolean autoMark) {
     Connection c;
     PreparedStatement stmt;
 
     Question createdQuestion = null;
 
-    String sql = "INSERT INTO Questions (Question) VALUES (?) RETURNING ID";
+    String sql = "INSERT INTO Questions (Question, Question_Type, Automark) VALUES (?,?,?) "
+        + "RETURNING ID";
 
     try {
       c = new PostgreSqlJdbc().getConnection();
       stmt = c.prepareStatement(sql);
       stmt.setString(1, question);
+      stmt.setString(2, questionType);
+      stmt.setBoolean(3, autoMark);
       ResultSet rs = stmt.executeQuery();
       rs.next();
       int id = rs.getInt(1);
